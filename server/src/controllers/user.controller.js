@@ -1,77 +1,48 @@
 import { User } from "../models/user.model.js";
 
-export const signUp = async (req, res) => {
-   const { fullName, email, password } = req.body;
-try {
+import {ApiError} from "../utils/ApiError.js";
+import  {ApiResponse} from "../utils/ApiResponse.js";
+import {asyncHandler} from "../utils/asyncHandler.js";
 
-  if ([fullName, email, password].some((field) => field?.trim() === "")) {
-    res.status(400).json({ message: "all fields are required" });
-  }
 
-  const existedUser = await User.findOne({
-    $or: [{ email }, { fullName }],
+const register = asyncHandler( async(req,res)=>{
+  const {fullName, email, password, phoneNumber} = req.body;
+
+  if(!fullName || !email || !password || !phoneNumber){
+    throw new ApiError(400, 'All fields are required');
+  };
+
+  const oldUser = await User.findOne({
+    $or: [{email}, {phoneNumber}]
   });
 
-  if (existedUser) {
-    res.status(409).json({ message: "User already exists" });
-  }
+  if(oldUser){
+    throw new ApiError(400, 'User already exists');
+  };
 
-  const createUser = await User.create({
+  const user = await User.create({
     fullName,
     email,
     password,
+    phoneNumber,
   });
 
-  const newUser = await User.findById(createUser._id).select("-password");
+  const tempUser = await user.save()
 
-  if(!newUser){
-      res.status(503).json({message: "something went wrong while creating a new user"})
-  }
+  const newUser = await User.findById(tempUser._id).select('-password');
 
-  const token = newUser.generateAccessToken()  ;
-  res.status(201).json({
-      newUser,
-      message: "User created successfully",
-       token,
-   });
+  return res
+  .status(201)
+  .json(new ApiResponse(201, 'User created successfully', newUser));
 
-  
-} catch (error) {
-  console.log(error.message);
-}
+
+})
+
+
+
+export {
+  register
 }
 
 
- export const Login = async (req, res) => {
-    const { email, password } = req.body;
 
-    try {
-
-      if ([email, password].some((field) => field?.trim() === "")) {
-        res.status(400).json({ message: "all fields are required" });
-      }
-
-      const oldUser =  await User.findOne({ email });
-
-   
-      if (!oldUser) {
-        res.status(404).json({ message: "User does not exist" });
-      }
-      const isPasswordCorrect =  await oldUser.comparePassword(password);
-
-      if (!isPasswordCorrect) {
-        res.status(403).json({ message: "Invalid credentials" });
-      }
-      
-      const accessToken = oldUser.generateAccessToken();
-      res.status(200).json({ 
-        oldUser,
-         accessToken,
-          message: "User logged in successfully",
-       });
-
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-
-}

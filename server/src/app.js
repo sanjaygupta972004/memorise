@@ -10,8 +10,8 @@ app.use(bodyParser.json({limit:"30mb",extended:true}))
 app.use(bodyParser.urlencoded({limit:"30mb",extended:true}))
 
 //import apiPostRouter from "./routers/postMessage.router.js"
-import apiUserRouter from "./routers/user.router.js"
+import userRouter from "./routers/user.router.js"
 
-app.use("/api/v/user",apiUserRouter)
+app.use("/api/v/users",userRouter)
 
  export {app}

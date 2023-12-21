@@ -22,17 +22,23 @@ const userSchema = new mongoose.Schema({
          required: false,
          trim: true,
          unique: true,
+         min: 6,
+         max: 20
    },
-   googleId:{
-         type: String,
-         required: false,
+   phoneNumber:{
+      type: Number,
+      required: true,
    },
+ 
    refreshToken:{
          type: String,
    },
-   id:{
-         type: String,
-   }
+      isAdmin:{
+           type: Boolean,
+             default: false,
+      },
+
+   
 },{timestamps: true});
 
 userSchema.pre('save', async function(next){
