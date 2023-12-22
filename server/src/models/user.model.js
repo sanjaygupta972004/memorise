@@ -6,24 +6,18 @@ const userSchema = new mongoose.Schema({
    fullName:{
          type: String,
          required: true,
-         trim: true,
-         min: 3,
-         max: 20
 
    },
    email:{
          type: String,
          required: true,
-         trim: true,
          unique: true,
    },
    password:{
          type: String,
          required: false,
-         trim: true,
          unique: true,
-         min: 6,
-         max: 20
+    
    },
    phoneNumber:{
       type: Number,
@@ -47,7 +41,7 @@ userSchema.pre('save', async function(next){
    next();
    });
 
-   userSchema.methods.comparePassword =  async function(password){
+userSchema.methods.comparePassword =  async function(password){
         try {
             return  await bcrypt.compare(password, this.password);
         } catch (error) {
@@ -58,9 +52,12 @@ userSchema.pre('save', async function(next){
 
 userSchema.methods.generateAccessToken = function(){
    return jwt.sign(
-      {_id: this._id,
-      name: this.name,
-      email: this.email,},
+      { 
+             _id: this._id,
+              name: this.fullName,
+              email: this.email,
+              isAdmin: this.isAdmin
+  },
        process.env.ACCESS_TOKEN_SECRET,
         {expiresIn:process.env.ACCESS_TOKEN_EXPIRY}
         )
