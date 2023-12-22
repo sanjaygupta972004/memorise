@@ -12,7 +12,9 @@ app.use(bodyParser.urlencoded({limit:"30mb",extended:true}))
 
 
 import userRouter from "./routers/user.router.js"
+import contactRouter from "./routers/contact.router.js"
 
 app.use("/api/v/users",userRouter)
+app.use("/api/v/contacts",contactRouter)
 
  export {app}
