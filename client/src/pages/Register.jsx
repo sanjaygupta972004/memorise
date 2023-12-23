@@ -11,98 +11,91 @@ const Register = () => {
   const [user, setUser] = useState(initialState);
 
   const handleChange = (e) => {
-    const name = e.target.name
-    const value = e.target.value
-   // const { name, value } = e.target;
-    // console.log(name, value);
-    setUser((preValu) => ({
-      ...preValu,
+    const { name, value } = e.target;
+    setUser((prevValue) => ({
+      ...prevValue,
       [name]: value
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
     console.log(user);
   };
 
   return (
-    <>
-      <section>
-        <main>
-          <div className='section-registation'>
-            <div className='container grid grid-two-cols'>
-              <img src="#" alt="logo" width="400" height="500" />
-            </div>
+    <section className="min-h-screen bg-gray-100 py-12">
+      <main className="container mx-auto px-4">
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+          <img src="#" alt="logo" className="mx-auto md:mx-0 w-64 h-auto" />
+          <div className="bg-white p-8 rounded shadow-md">
+            <h1 className='text-2xl mb-4'>Registration Form</h1>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label htmlFor="name" className="block text-sm font-medium text-gray-600">Full Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Enter your name"
+                  required
+                  autoComplete='off'
+                  className="mt-1 p-2 w-full border rounded-md"
+                  value={user.name}
+                  onChange={handleChange}
+                />
+              </div>
 
-            <div className="registation-form">
-              <h1 className='main-heading mb-3'> Registration Form</h1>
-              <br />
+              <div className="mb-4">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  required
+                  autoComplete='off'
+                  className="mt-1 p-2 w-full border rounded-md"
+                  value={user.email}
+                  onChange={handleChange}
+                />
+              </div>
 
-              <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <label htmlFor="fullname">fullName</label>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Enter your name"
-                    required
-                    autoComplete='off'
-                    value={user.name}
-                    onChange={handleChange}
-                  />
-                </div>
+              <div className="mb-4">
+                <label htmlFor="password" className="block text-sm font-medium text-gray-600">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  required
+                  autoComplete='off'
+                  className="mt-1 p-2 w-full border rounded-md"
+                  value={user.password}
+                  onChange={handleChange}
+                />
+              </div>
 
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    required
-                    autoComplete='off'
-                    value={user.email}
-                    onChange={handleChange}
-                  />
-                </div>
+              <div className="mb-4">
+                <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-600">Phone Number</label>
+                <input
+                  type="tel"
+                  name="phoneNumber"
+                  placeholder="Enter your Number"
+                  required
+                  autoComplete='off'
+                  className="mt-1 p-2 w-full border rounded-md"
+                  value={user.phoneNumber}
+                  onChange={handleChange}
+                />
+              </div>
 
-                <div className="form-group">
-                  <label htmlFor="password">Password</label>
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    required
-                    autoComplete='off'
-                    value={user.password}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="phoneNumber">phoneNumber</label>
-                  <input
-                    type="tel"
-                    name="phoneNumber"
-                    placeholder="Enter your Number"
-                    required
-                    autoComplete='off'
-                    value={user.phoneNumber}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <br />
-                <button type="submit" className="btn btn-primary">Register</button>
-              </form>
-            </div>
+              <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">
+                Register
+              </button>
+            </form>
           </div>
-        </main>
-      </section>
-    </>
+        </div>
+      </main>
+    </section>
   );
 }
 
 export default Register;
-
