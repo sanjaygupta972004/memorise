@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
   const initialState = {
     email: '',
     password: ''
@@ -17,9 +19,38 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log(user);
+  try {
+    const response  = await fetch("http://localhost:5050/api/v/users/login",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify(user)
+    })
+
+    const data = await response.json()
+    console.log(data);
+
+    if(response.ok){
+      setUser({
+        email:"",
+        password:""
+      })
+      alert("Login Successfull")
+      navigate('/')
+ 
+    }else{
+      alert("Login Failed")
+    }
+
+  } catch (error) {
+    console.log(error.message);
+    throw error;
+  }
+  
+  
   };
 
   return (

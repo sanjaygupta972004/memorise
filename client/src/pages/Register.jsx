@@ -1,8 +1,13 @@
+
 import React, { useState } from 'react';
+import {useNavigate} from 'react-router-dom'
 
 const Register = () => {
+
+  const navigate = useNavigate()
+
   const initialState = {
-    name: '',
+    fullName: '',
     email: '',
     password: '',
     phoneNumber: ''
@@ -18,9 +23,31 @@ const Register = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log(user);
+    try {
+      const response =  await fetch("http://localhost:5050/api/v/users/register",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(user)
+      })
+      const data = await response.json()
+      console.log(data);
+
+      if(response.ok){
+        setUser(initialState)
+        navigate('/login')
+      }
+      
+
+      
+     } catch (error) {
+      console.log(error.message);
+      throw error;
+     }
+    
   };
 
   return (
@@ -32,10 +59,10 @@ const Register = () => {
             <h1 className='text-2xl mb-4'>Registration Form</h1>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label htmlFor="name" className="block text-sm font-medium text-gray-600">Full Name</label>
+                <label htmlFor="fullName" className="block text-sm font-medium text-gray-600">fullName</label>
                 <input
                   type="text"
-                  name="name"
+                  name="fullName"
                   placeholder="Enter your name"
                   required
                   autoComplete='off'

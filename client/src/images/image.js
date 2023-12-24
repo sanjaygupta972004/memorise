@@ -1,0 +1,1 @@
+export const logo = "https://designshack.net/wp-content/uploads/immutable.gif"
