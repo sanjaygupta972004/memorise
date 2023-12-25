@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../store/Auth';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { localStoreAccessToken,localStoreRefreshToken } = useAuth();
+
+  //console.log(localStoreToken);
+
   const initialState = {
     email: '',
     password: ''
@@ -30,15 +35,20 @@ const Login = () => {
       body:JSON.stringify(user)
     })
 
-    const data = await response.json()
-    console.log(data);
+    const jsonResponse = await response.json()
 
+  // console.log(jsonResponse.data.accessToken);
+ 
     if(response.ok){
-      setUser({
+      alert("Login Successfull")
+       localStoreAccessToken(jsonResponse.data.accessToken)
+       localStoreRefreshToken(jsonResponse.data.refreshToken)
+
+       setUser({
         email:"",
         password:""
       })
-      alert("Login Successfull")
+
       navigate('/')
  
     }else{
@@ -97,6 +107,5 @@ const Login = () => {
       </div>
     </div>
   );
-}
-
+};
 export default Login;

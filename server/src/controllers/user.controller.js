@@ -74,7 +74,7 @@ const login = asyncHandler(async(req,res)=>{
 
   const  { accessToken, refreshToken} =  await generateAccessTokenandRefreshToken(user._id);
 
-console.log({ accessToken})
+//  console.log({ accessToken})
 
   const loggedInUser = await User.findById(user._id).select('-password');
 
