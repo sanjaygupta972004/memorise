@@ -80,6 +80,7 @@ const login = asyncHandler(async(req,res)=>{
 
   const onptions = {
     httpOnly: true,
+    secure :true,
   }
 
   res.cookie("accessToken", accessToken, onptions);
@@ -108,9 +109,7 @@ const getUserProfile = asyncHandler(async(req,res)=>{
   .status(200)
   .json(new ApiResponse(
      200, 
-    {
-      user: req.user,
-    },
+     req.user,
     'User profile fetched successfully'
 
 ))

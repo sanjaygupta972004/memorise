@@ -1,11 +1,28 @@
 import { useState } from "react";
+import {useAuth} from "../store/Auth"; 
+import { contactImage } from "../images/image";
 
 export const Contact = () => {
+  const {userProfileData} = useAuth()
+
+  const [user, setUser] = useState(true)
+
   const [contact, setContact] = useState({
     fullName: "",
     email: "",
     message: "",
   });
+
+  if(userProfileData && user){
+     setContact({
+      fullName: userProfileData.fullName,
+      email: userProfileData.email,
+      message: "",
+     })
+      setUser(false);
+  }
+
+  console.log(contact)
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -15,19 +32,34 @@ export const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log(contact);
+    try {
+      const response = await fetch("http://localhost:5050/api/v/contacts/contact",{
+        method:"POST",
+        headers:{
+          Content_Type: 'application/json'
+        },
+        body:JSON.stringify(contact)
+      })
+      
+    } catch (error) {
+      console .error("Error during submit contact form", error.message );
+      throw new Error(error.message)  
+    }
+
+
+  
   };
 
   return (
-    <section className="bg-gray-100 min-h-screen py-12">
+    <section className="bg-gray-200 min-h-screen py-12">
       <div className="container mx-auto px-4">
-        <h1 className="text-2xl font-semibold mb-8">Contact Us</h1>
+        <h1 className="text-4xl font-semibold mb-8 underline">Contact Us</h1>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="flex justify-center items-center">
-            <img src="/images/support.png" alt="We are always ready to help" className="w-64 h-auto" />
+          <img src= {contactImage} alt="We are always ready to help" className="w-auto h-auto" />
           </div>
 
           <div className="bg-white p-8 rounded shadow-md">
@@ -40,7 +72,7 @@ export const Contact = () => {
                   id="fullName"
                   autoComplete="off"
                   className="mt-1 p-2 w-full border rounded-md"
-                  value={contact.username}
+                  value={contact.fullName}
                   onChange={handleInput}
                   required
                 />
