@@ -66,7 +66,7 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-96">
-        <h1 className="text-2xl mb-4">Login</h1>
+        <h1 className="text-2xl mb-4 underline">Login</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email</label>

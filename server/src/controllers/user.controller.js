@@ -76,16 +76,17 @@ const login = asyncHandler(async(req,res)=>{
 
 //  console.log({ accessToken})
 
-  const loggedInUser = await User.findById(user._id).select('-password');
+  const loggedInUser = await User.findById(user._id).select('-password -refreshToken');
 
   const onptions = {
     httpOnly: true,
+    Secure:true
 
 
   }
 
-  res.cookie('accessToken', accessToken, onptions);
-  res.cookie('refreshToken', refreshToken, onptions);
+  res.cookie("accessToken", accessToken, onptions);
+  res.cookie("refreshToken", refreshToken, onptions);
 
   return res
   .status(200)
