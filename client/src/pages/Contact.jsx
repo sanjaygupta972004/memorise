@@ -1,8 +1,11 @@
 import { useState } from "react";
 import {useAuth} from "../store/Auth"; 
 import { contactImage } from "../images/image";
+import {useNavigate} from "react-router-dom"
 
-export const Contact = () => {
+ const Contact = () => {
+  const navigate = useNavigate();
+
   const {userProfileData} = useAuth()
 
   const [user, setUser] = useState(true)
@@ -22,7 +25,7 @@ export const Contact = () => {
       setUser(false);
   }
 
-  console.log(contact)
+//console.log(contact)
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -38,12 +41,26 @@ export const Contact = () => {
       const response = await fetch("http://localhost:5050/api/v/contacts/contact",{
         method:"POST",
         headers:{
-          Content_Type: 'application/json'
+          "Content-Type": 'application/json'
         },
         body:JSON.stringify(contact)
       })
-      
+
+      const data = await response.json()
+
+      console.log(data);
+
+      if(response.ok){
+        alert("messsage successfully send")
+        setContact({
+          fullName:"",
+          email:"",
+          message:""
+        })
+        navigator("/")
+      }
     } catch (error) {
+      alert("user detail alreay exit")
       console .error("Error during submit contact form", error.message );
       throw new Error(error.message)  
     }
@@ -65,7 +82,7 @@ export const Contact = () => {
           <div className="bg-white p-8 rounded shadow-md">
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label htmlFor="fullName" className="block text-sm font-medium text-gray-600">fullName</label>
+                <label htmlFor="fullName" className="block text-lg font-medium text-gray-700">fullName</label>
                 <input
                   type="text"
                   name="fullName"
@@ -79,7 +96,7 @@ export const Contact = () => {
               </div>
 
               <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email</label>
+                <label htmlFor="email" className="block text-lg font-medium text-gray-700">Email</label>
                 <input
                   type="email"
                   name="email"
@@ -93,7 +110,7 @@ export const Contact = () => {
               </div>
 
               <div className="mb-4">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-600">Message</label>
+                <label htmlFor="message" className="block text-lg font-medium text-gray-700">Message</label>
                 <textarea
                   name="message"
                   id="message"

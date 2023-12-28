@@ -1,7 +1,7 @@
 
 import { Router } from 'express';
 
-import { userAuthSchema } from "../validate/userAuth.validate.js";
+import {userAuthRegisterSchema ,userAuthLoginSchema} from "../validate/userAuth.validate.js";
 
 
 import {
@@ -9,13 +9,14 @@ import {
    login ,
    getUserProfile,
 } from '../controllers/user.controller.js';
-import {validateUserAuthRegister } from '../middleware/auth.middleware.js';
+
+import {validateUserAuthRegister,validateUserAuthLogin } from '../middleware/auth.middleware.js';
 import { jwtVerify } from '../middleware/authJwtVerify.middleware.js';
 
 const router = Router();
 
-router.route('/register').post(validateUserAuthRegister(userAuthSchema), register);
-router.route('/login').post(login);
+router.route('/register').post(validateUserAuthRegister(userAuthRegisterSchema), register);
+router.route('/login').post(validateUserAuthLogin(userAuthLoginSchema),login);
 
 // secure route   
  router.route('/user-profile').get(jwtVerify, getUserProfile);
