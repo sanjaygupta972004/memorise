@@ -10,12 +10,12 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 
       const status = 402
       const message = "fill the input properly"
-      const extaDetails =err.issues.map((curElem) => curElem.message);
+      const extraDetails =err.issues.map((curElem) => curElem.message);
 
       const error = {
          status,
          message,
-         extaDetails
+         extraDetails
       }
 
      // console.log(error)
@@ -40,7 +40,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
             message: "fill the input properly",
             extraDetails:error.issues.map((curVal)=>curVal.message)
          }
-         res.send(err);
+         res.status(401).send(err);
       }
    })
 

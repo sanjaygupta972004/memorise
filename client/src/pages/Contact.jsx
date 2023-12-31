@@ -2,6 +2,7 @@ import { useState } from "react";
 import {useAuth} from "../store/Auth"; 
 import { contactImage } from "../images/image";
 import {useNavigate} from "react-router-dom"
+import { toast } from "react-toastify";
 
  const Contact = () => {
   const navigate = useNavigate();
@@ -51,16 +52,16 @@ import {useNavigate} from "react-router-dom"
       console.log(data);
 
       if(response.ok){
-        alert("messsage successfully send")
+        toast.success("Contact form submitted successfully")
         setContact({
           fullName:"",
           email:"",
           message:""
         })
-        navigator("/")
+        navigate("/")
       }
     } catch (error) {
-      alert("user detail alreay exit")
+      toast.warn("contact details already submitted")
       console .error("Error during submit contact form", error.message );
       throw new Error(error.message)  
     }

@@ -19,13 +19,12 @@ export const userAuthLoginSchema = z.object({
 export const userAuthRegisterSchema  = userAuthLoginSchema.extend({
    fullName: z
    .string({required_error: "fullName is required"})
-   .min(3, {message: "Full name must be at least 3 characters long"})
-   .max(50, {message: "Full name must not be more than 50 characters long"})
+   .min(3, {message: "fullName must be at least 3 characters long"})
+   .max(50, {message: "FullName must not be more than 50 characters long"})
    .trim(),
 
    phoneNumber: z
    .string({required_error: "Phone number is required"})
    .min(10, {message: "Phone number must be at least 10 characters long"})
    
-
 })

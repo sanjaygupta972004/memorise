@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../store/Auth';
+import {toast} from 'react-toastify'
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,8 +19,8 @@ const Login = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser((prevValue) => ({
-      ...prevValue,
+    setUser((preValue) => ({
+      ...preValue,
       [name]: value
     }));
   };
@@ -37,10 +38,12 @@ const Login = () => {
 
     const jsonResponse = await response.json()
 
-  // console.log(jsonResponse.data.accessToken);
+     //console.log(jsonResponse)
+
+     //console.log(jsonResponse.extraDetails[0]);
  
     if(response.ok){
-      alert("Login Successfull")
+       toast.success("Login Successful")
        localStoreAccessToken(jsonResponse.data.accessToken)
        localStoreRefreshToken(jsonResponse.data.refreshToken)
 
@@ -52,7 +55,7 @@ const Login = () => {
       navigate('/')
  
     }else{
-      alert("Login Failed")
+      toast.error(jsonResponse.extraDetails[0])
     }
 
   } catch (error) {

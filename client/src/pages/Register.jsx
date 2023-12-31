@@ -1,6 +1,8 @@
 
 import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom'
+import {toast} from 'react-toastify'
+import { logo2 } from '../images/image';
 
 const Register = () => {
 
@@ -17,8 +19,8 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser((prevValue) => ({
-      ...prevValue,
+    setUser((preValue) => ({
+      ...preValue,
       [name]: value
     }));
   };
@@ -34,17 +36,18 @@ const Register = () => {
         body:JSON.stringify(user)
       })
       const data = await response.json()
-      console.log(data);
+     // console.log(data.extraDetails[0]);
 
       if(response.ok){
         setUser(initialState)
+        toast.success(data.message)
         navigate('/login')
+      }else{
+        toast.error(data.extraDetails ? data.extraDetails:data.message)
       }
       
-
-      
      } catch (error) {
-      console.log(error.message);
+       alert(error.message);
       throw error;
      }
     
@@ -54,7 +57,7 @@ const Register = () => {
     <section className="min-h-screen bg-gray-100 py-12">
       <main className="container mx-auto px-4">
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
-          <img src="#" alt="logo" className="mx-auto md:mx-0 w-64 h-auto" />
+          <img src= {logo2} alt="logo" className="w-auto h-auto rounded-lg " />
           <div className="bg-white p-8 rounded shadow-md">
             <h1 className='text-2xl mb-4'>Registration Form</h1>
             <form onSubmit={handleSubmit}>
@@ -72,7 +75,7 @@ const Register = () => {
                 />
               </div>
 
-              <div className="mb-4">
+               <div className="mb-4">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email</label>
                 <input
                   type="email"

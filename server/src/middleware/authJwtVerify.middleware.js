@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 export const jwtVerify = asyncHandler(async (req, _, next) => { 
    // console.log(req.cookies);
-  //console.log(req.header("Authorization")); 
+   console.log(req.header("Authorization")); 
 
    const token = req.header("Authorization")?.replace("Bearer", "").trim();
   // console.log(token);
@@ -18,7 +18,7 @@ export const jwtVerify = asyncHandler(async (req, _, next) => {
    try {
       decodeToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
    } catch (error) {
-      throw new ApiError(401, "Invalid or expired token");
+      throw new ApiError(401, "Invalid credential");
    }
 
    if (!decodeToken) {

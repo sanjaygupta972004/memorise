@@ -22,7 +22,4 @@ router.route('/login').post(validateUserAuthLogin(userAuthLoginSchema),login);
  router.route('/user-profile').get(jwtVerify, getUserProfile);
 
 
-
-
-
 export default router;

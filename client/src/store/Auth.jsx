@@ -9,8 +9,11 @@ export const AuthProvider = ({children}) => {
    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken")) || null
    const [refreshToken, setRefreshToken] = useState(localStorage.getItem("refreshToken")) || null
    const [userProfileData, setUserProfileData] = useState("")
+  
 
    const localStoreAccessToken =(tokenServer)=>{
+      setAccessToken(tokenServer)
+
       return localStorage.setItem("accessToken", tokenServer)
    }
 
@@ -48,7 +51,9 @@ export const AuthProvider = ({children}) => {
        findUserProfile(accessToken)
    },[])
 
-  let  isLoggedIn = !!accessToken
+
+   const isLoggedIn = accessToken ? true : false
+
   console.log("accessToken",isLoggedIn);
 
    const logoutUser = () => {
