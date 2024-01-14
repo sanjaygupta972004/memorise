@@ -26,7 +26,7 @@ import { toast } from "react-toastify";
       setUser(false);
   }
 
-//console.log(contact)
+ //console.log(contact)
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -66,8 +66,6 @@ import { toast } from "react-toastify";
       throw new Error(error.message)  
     }
 
-
-  
   };
 
   return (
