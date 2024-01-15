@@ -80,7 +80,7 @@ const login = asyncHandler(async(req,res)=>{
 
   const onptions = {
     httpOnly: true,
-    secure :true,
+
   }
 
   res.cookie("accessToken", accessToken, onptions);
